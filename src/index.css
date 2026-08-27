@@ -1,0 +1,406 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* ===== DESIGN SYSTEM TOKENS (Modernized for premium, eye-pleasing, mobile-first fitness tracker) ===== */
+@theme {
+  --color-primary: #6366F1;
+  --color-primary-light: #818CF8;
+  --color-primary-dark: #4F46E5;
+  --color-secondary: #8B5CF6;
+  --color-accent: #06B6D4;
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  /* Modern deep dark for premium trustworthy feel */
+  --color-dark-bg: #050810;
+  --color-dark-surface: #0C1021;
+  --color-dark-card: #121832;
+  --color-dark-border: #1E2A4A;
+  --color-dark-text: #F1F5F9;
+  --color-dark-text-secondary: #8896B8;
+
+  --color-light-bg: #F4F6FB;
+  --color-light-surface: #FFFFFF;
+  --color-light-card: #FFFFFF;
+  --color-light-border: #E2E8F0;
+  --color-light-text: #0F172A;
+  --color-light-text-secondary: #64748B;
+
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Generous mobile-friendly radii and spacing */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Enhanced spacing scale for breathing room on mobile */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+}
+
+/* ===== BASE STYLES ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100%;
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+  width: 100%;
+}
+
+/* ===== THEME: DARK (default) ===== */
+[data-theme="dark"] {
+  --bg: var(--color-dark-bg);
+  --surface: var(--color-dark-surface);
+  --card: var(--color-dark-card);
+  --border: var(--color-dark-border);
+  --text: var(--color-dark-text);
+  --text-secondary: var(--color-dark-text-secondary);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: var(--color-light-bg);
+  --surface: var(--color-light-surface);
+  --card: var(--color-light-card);
+  --border: var(--color-light-border);
+  --text: var(--color-light-text);
+  --text-secondary: var(--color-light-text-secondary);
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* ===== SCROLLBAR STYLES ===== */
+::-webkit-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+/* ===== TYPOGRAPHY (Modern mobile-first scale — generous, no tiny text, excellent readability on small screens) ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.text-display { font-size: 28px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
+.text-title { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+.text-body { font-size: 15px; line-height: 1.55; }
+.text-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.3px; font-weight: 600; }
+.text-small { font-size: 13px; line-height: 1.45; } /* Hard minimum for mobile eyes — no <12px */
+
+@media (max-width: 380px) {
+  .text-display { font-size: 26px; }
+  .text-title { font-size: 19px; }
+  .text-small { font-size: 12px; }
+}
+
+@media (min-width: 480px) {
+  .text-display { font-size: 32px; }
+  .text-title { font-size: 22px; }
+}
+
+/* ===== GLASSMORPHISM (Enhanced premium depth + modern blur for eye-pleasing modern look) ===== */
+.glass {
+  background: rgba(18, 24, 50, 0.78);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== CARD STYLES (Modern elevated with better depth + hover for premium trustworthy feel) ===== */
+.card-elevated {
+  background: linear-gradient(145deg, rgba(18, 24, 50, 0.96), rgba(12, 16, 33, 0.92));
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-elevated:hover {
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .card-elevated {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card-elevated:active {
+  transform: scale(0.985);
+}
+
+/* ===== GRADIENT UTILITIES ===== */
+.gradient-primary {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A78BFA 100%);
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+}
+
+.gradient-warm {
+  background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+}
+
+.gradient-cool {
+  background: linear-gradient(135deg, #06B6D4 0%, #6366F1 100%);
+}
+
+.gradient-bg-subtle {
+  background: radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+}
+
+[data-theme="light"] .gradient-bg-subtle {
+  background: radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.06) 0%, transparent 60%);
+}
+
+/* ===== GLOW EFFECTS (Enhanced modern premium depth) ===== */
+.glow-primary {
+  box-shadow: 0 8px 40px rgba(99, 102, 241, 0.35), 0 0 80px rgba(99, 102, 241, 0.08);
+}
+
+.glow-success {
+  box-shadow: 0 8px 40px rgba(16, 185, 129, 0.35), 0 0 80px rgba(16, 185, 129, 0.08);
+}
+
+/* ===== STAT / ICON GLOW COLORS (Consistent modern treatment) ===== */
+.stat-icon-primary {
+  background: rgba(99, 102, 241, 0.12);
+  color: #818CF8;
+}
+.stat-icon-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #FBBF24;
+}
+.stat-icon-accent {
+  background: rgba(6, 182, 212, 0.12);
+  color: #22D3EE;
+}
+.stat-icon-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34D399;
+}
+
+/* ===== MODERN UTILITIES (Premium mobile-friendly additions for whole project redesign) ===== */
+.btn-primary {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A78BFA 100%);
+  color: white;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:active {
+  transform: scale(0.985);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Mobile tap target helper + no tiny text enforcement */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.no-tiny-text {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* Elegant pill / badge for status/trust elements */
+.premium-pill {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+}
+
+/* ===== ANIMATION UTILITIES ===== */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+}
+
+/* ===== LEAFLET MAP OVERRIDES ===== */
+.leaflet-container {
+  background: var(--color-dark-bg) !important;
+  font-family: var(--font-body) !important;
+}
+
+[data-theme="light"] .leaflet-container {
+  background: var(--color-light-bg) !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(18, 24, 50, 0.9) !important;
+  color: var(--color-dark-text) !important;
+  border: none !important;
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  font-size: 18px !important;
+}
+
+.leaflet-control-zoom a:first-child {
+  border-radius: 14px 14px 0 0 !important;
+}
+
+.leaflet-control-zoom a:last-child {
+  border-radius: 0 0 14px 14px !important;
+}
+
+[data-theme="light"] .leaflet-control-zoom a {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #333 !important;
+}
+
+/* ===== SAFE AREA SUPPORT ===== */
+.safe-bottom {
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.safe-top {
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+
+/* ===== AMBIENT ORB (Subtle modern depth for whole app) ===== */
+.ambient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+}
+
+[data-theme="light"] .ambient-orb {
+  opacity: 0.06;
+}
+
+/* ===== ENHANCED ANIMATIONS (Smooth modern feel for redesign) ===== */
+@keyframes premium-pop {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.premium-pop {
+  animation: premium-pop 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Ensure no tiny/cramped elements on mobile across project */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
