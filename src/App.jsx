@@ -45,7 +45,7 @@ export default function App() {
     !location.pathname.startsWith('/walk-summary');
 
   return (
-    <div className="relative w-full min-h-screen min-h-[100dvh] overflow-x-hidden bg-[var(--bg)]">
+    <div className="relative w-full min-h-screen min-h-[100dvh] overflow-clip bg-[var(--bg)]">
       {/* Subtle, non-intrusive background treatment — no large off-screen orbs that cause visual imbalance or perceived left shift on phones */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute top-[-20%] right-[-10%] w-[280px] h-[280px] rounded-full bg-[#6366F1] opacity-[0.06] blur-[90px]" />
