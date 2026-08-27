@@ -20,7 +20,7 @@ export default function Achievements() {
   return (
     <div className="min-h-screen min-h-[100dvh] bg-[var(--bg)] pb-28">
       {/* Header */}
-      <div className="px-7 pt-16 pb-4 safe-top">
+      <div className="pt-14 pb-4 safe-top">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-[28px] font-extrabold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
             Achievements
@@ -32,7 +32,7 @@ export default function Achievements() {
       </div>
 
       {/* Level & Progress Combined */}
-      <div className="px-7 mt-4 space-y-6">
+      <div className="mt-4 space-y-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Card className="relative overflow-hidden">
             <div className="absolute inset-0 gradient-primary opacity-[0.03]" />
@@ -83,7 +83,7 @@ export default function Achievements() {
       </div>
 
       {/* Overall Progress */}
-      <div className="px-5 mb-6">
+      <div className="mb-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           <Card className="flex items-center gap-5 py-5">
             <ProgressRing
@@ -107,7 +107,7 @@ export default function Achievements() {
       </div>
 
       {/* Badges Grid */}
-      <div className="px-5">
+      <div>
         <h2 className="text-lg font-bold mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
           All Badges
         </h2>

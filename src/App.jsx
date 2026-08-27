@@ -44,16 +44,21 @@ export default function App() {
   const showNav = !hiddenNavPaths.includes(location.pathname) &&
     !location.pathname.startsWith('/walk-summary');
 
+  // Full-screen routes that should NOT be constrained by the app frame
+  const fullScreenPaths = ['/splash', '/onboarding', '/track'];
+  const isFullScreen = fullScreenPaths.includes(location.pathname) ||
+    location.pathname.startsWith('/walk-summary');
+
   return (
     <div className="relative w-full min-h-screen min-h-[100dvh] overflow-clip bg-[var(--bg)]">
-      {/* Subtle, non-intrusive background treatment — no large off-screen orbs that cause visual imbalance or perceived left shift on phones */}
+      {/* Subtle ambient background — symmetrically placed to avoid visual imbalance */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-[-20%] right-[-10%] w-[280px] h-[280px] rounded-full bg-[#6366F1] opacity-[0.06] blur-[90px]" />
-        <div className="absolute bottom-[-15%] left-[-5%] w-[220px] h-[220px] rounded-full bg-[#8B5CF6] opacity-[0.05] blur-[80px]" />
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full bg-[#6366F1] opacity-[0.04] blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-[#8B5CF6] opacity-[0.03] blur-[100px]" />
       </div>
 
-      {/* Content wrapper: true mobile-first — full-bleed comfortable padding on phones, elegantly centered narrow "app" frame on larger screens */}
-      <div className="relative z-10 w-full max-w-[480px] mx-auto px-5 sm:px-6">
+      {/* Content: centered mobile-app frame for dashboard pages, full-bleed for immersive screens */}
+      <div className={`relative z-10 w-full ${isFullScreen ? '' : 'max-w-[480px] mx-auto px-5'}`}>
         <AnimatePresence mode="wait">
           <Suspense fallback={null}>
             <Routes location={location} key={location.pathname}>

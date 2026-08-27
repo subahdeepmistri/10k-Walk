@@ -131,7 +131,7 @@ export default function Stats() {
   return (
     <div className="min-h-screen min-h-[100dvh] bg-[var(--bg)] pb-28">
       {/* Header */}
-      <div className="px-7 pt-16 pb-4 safe-top">
+      <div className="pt-14 pb-4 safe-top">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-[28px] font-extrabold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -155,7 +155,7 @@ export default function Stats() {
       </div>
 
       {/* Main Tabs */}
-      <div className="px-7 mt-4 mb-6">
+      <div className="mt-4 mb-6">
         <div className="flex gap-2 p-1.5 bg-[var(--card)] rounded-2xl shadow-inner border border-white/5">
           {[
             { key: 'charts', label: 'Overview' },
@@ -186,7 +186,7 @@ export default function Stats() {
           <div className="w-9 h-9 border-2 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : walks.length === 0 ? (
-        <div className="px-7">
+        <div>
           <Card className="text-center py-16">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
@@ -203,7 +203,7 @@ export default function Stats() {
           </Card>
         </div>
       ) : activeTab === 'charts' ? (
-        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="px-7 space-y-8">
+        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
           {/* Charts Section */}
           <Card className="p-6">
             <div className="flex items-center justify-between mb-6">
@@ -280,7 +280,7 @@ export default function Stats() {
           )}
         </motion.div>
       ) : (
-        <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="px-7">
+        <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}>
           {/* Filter Sub-Tabs for Log View */}
           <div className="flex gap-2 mb-6">
             {[

@@ -30,7 +30,7 @@ export default function Settings() {
   return (
     <div className="min-h-screen min-h-[100dvh] bg-[var(--bg)] pb-28">
       {/* Header */}
-      <div className="pt-14 pb-4 safe-top">
+      <div className="pt-14 pb-2 safe-top">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-[28px] font-extrabold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
             Settings
